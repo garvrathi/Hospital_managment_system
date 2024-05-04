@@ -41,16 +41,16 @@ if(isset($_POST['app-submit']))
     if((date("Y-m-d",$appdate1)==$cur_date and date("H:i:s",$apptime1)>$cur_time) or date("Y-m-d",$appdate1)>$cur_date) {
       $check_query = mysqli_query($con,"select apptime from appointmenttb where doctor='$doctor' and appdate='$appdate' and apptime='$apptime'");
 
-        if(mysqli_num_rows($check_query)==0){
-          $query=mysqli_query($con,"insert into appointmenttb(pid,fname,lname,gender,email,contact,doctor,docFees,appdate,apptime,userStatus,doctorStatus) values($pid,'$fname','$lname','$gender','$email','$contact','$doctor','$docFees','$appdate','$apptime','1','1')");
+      $query = "INSERT INTO appointmenttb (pid, fname, lname, gender, email, contact, doctor, docFees, appdate, apptime, userStatus, doctorStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1)";
 
-          if($query)
-          {
-            echo "<script>alert('Your appointment successfully booked');</script>";
-          }
-          else{
-            echo "<script>alert('Unable to process your request. Please try again!');</script>";
-          }
+      $stmt = mysqli_prepare($con, $query);
+      mysqli_stmt_bind_param($stmt, "isssssssss", $pid, $fname, $lname, $gender, $email, $contact, $doctor, $docFees, $appdate, $apptime);
+      
+      if (mysqli_stmt_execute($stmt)) {
+          echo "Data inserted successfully!";
+      } else {
+          echo "Error: " . mysqli_error($con);
+      }
       }
       else{
         echo "<script>alert('We are sorry to inform that the doctor is not available in this time or date. Please choose different time or date!');</script>";
@@ -64,7 +64,6 @@ if(isset($_POST['app-submit']))
       echo "<script>alert('Select a time or date in the future!');</script>";
   }
   
-}
 
 if(isset($_GET['cancel']))
   {
