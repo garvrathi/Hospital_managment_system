@@ -1,8 +1,8 @@
 <?php
 session_start();
-require 'C:\xampp_2\htdocs\Hospital_managment_system\PHPMailer-master\src\Exception.php';
-require 'C:\xampp_2\htdocs\Hospital_managment_system\PHPMailer-master\src\PHPMailer.php';
-require 'C:\xampp_2\htdocs\Hospital_managment_system\PHPMailer-master\src\SMTP.php';
+require 'C:\xampp\htdocs\phpmailer\PHPMailer\src\Exception.php';
+require 'C:\xampp\htdocs\phpmailer\PHPMailer\src\PHPMailer.php';
+require 'C:\xampp\htdocs\phpmailer\PHPMailer\src\SMTP.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -14,76 +14,92 @@ function generateOTP() {
 }
 
 function sendOTP($to, $otp, $fname, $lname) {
-    $mail = new PHPMailer(true);
+  $mail = new PHPMailer(true);
 
-    try {
-        //Server settings
-        $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';
-        $mail->SMTPAuth   = true;
-        $mail->Username   = 'ananyasarkarlks@gmail.com'; // Your Gmail address
-        $mail->Password   = 'kdsvmepiitgyxkaj';   // Your Gmail password
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 587;
+  try {
+      //Server settings
+      $mail->isSMTP();
+      $mail->Host       = 'smtp.gmail.com';
+      $mail->SMTPAuth   = true;
+      $mail->Username   = 'ananyasarkarlks@gmail.com'; // Your Gmail address
+      $mail->Password   = 'kdsvmepiitgyxkaj';   // Your Gmail password
+      $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+      $mail->Port       = 587;
 
-        //Recipients
-        $mail->setFrom('your-email@gmail.com', 'Your Name');
-        $mail->addAddress($to, $fname . ' ' . $lname);
+      //Recipients
+      $mail->setFrom('your-email@gmail.com', 'ananya');
+      $mail->addAddress($to, $fname . ' ' . $lname);
 
-        // Content
-        $mail->isHTML(true);
-        $mail->Subject = 'Your OTP for Registration';
-        $mail->Body    = '
-            <p>Dear ' . $fname . ' ' . $lname . ',</p>
-            <p>Thanks for signing up. Your verification ID and token are given below:</p>
-            <p>' . $otp . '</p>
-            <p><strong>This is an automatically generated email. Please do not reply.</strong></p>
-            <p>Regards,</p>
-        ';
+      // Content
+      $mail->isHTML(true);
+      $mail->Subject = 'Your OTP for Registration';
+      $mail->Body    = '
+          <p>Dear ' . $fname . ' ' . $lname . ',</p>
+          <p>Thanks for signing up. Your verification ID and token are given below:</p>
+          <p>' . $otp . '</p>
+          <p><strong>This is an automatically generated email. Please do not reply.</strong></p>
+          <p>Regards,</p>
+      ';
 
-        $mail->send();
-        return true; // Email sent successfully
-    } catch (Exception $e) {
-        return false; // Failed to send email
-    }
+      $mail->send();
+      return true; // Email sent successfully
+  } catch (Exception $e) {
+      return false; // Failed to send email
+  }
 }
 
-// Process form submission
-if (isset($_POST['patsub1'])) {
-    // Retrieve form data
-    $fname = $_POST['fname'];
-    $lname = $_POST['lname'];
-    $gender = $_POST['gender'];
-    $email = $_POST['email'];
-    $contact = $_POST['contact'];
-    $password = $_POST['password'];
-    $cpassword = $_POST['cpassword'];
+// Process form submission for sending OTP
+function hehe(){
+if (isset($_POST['sendOTP'])) {
+  // Retrieve form data
+  $fname = $_POST['fname'];
+  $lname = $_POST['lname'];
+  $gender = $_POST['gender'];
+  $email = $_POST['email'];
+  $contact = $_POST['contact'];
+  $password = $_POST['password'];
+  $cpassword = $_POST['cpassword'];
 
-    // Generate OTP
-    $otp = generateOTP();
+  // Generate OTP
+  $otp = generateOTP();
 
-    // Send OTP email
-    $mailSent = sendOTP($email, $otp, $fname, $lname);
+  // Send OTP email
+  $mailSent = sendOTP($email, $otp, $fname, $lname);
 
-    if ($mailSent) {
-        // Store the OTP in the session for verification later
-        $_SESSION['otp'] = $otp;
+  if ($mailSent) {
+      // Store the OTP in the session for verification later
+      $_SESSION['otp'] = $otp;
+      $_SESSION['fname'] = $fname;
+      $_SESSION['lname'] = $lname;
+      $_SESSION['gender'] = $gender;
+      $_SESSION['contact'] = $contact;
+      $_SESSION['email'] = $email;
 
-        // Store other user data in session or database
-        // Perform database operations
-
-        // Redirect user to OTP verification page
-        header("Location: otp-verification.php");
-        exit;
-    } else {
-        // Failed to send email
-        header("Location: error.php");
-        exit;
-    }
+      // Enable the OTP field and the "verify otp" button
+      echo json_encode(array('success' => true));
+  } else {
+      // Failed to send email
+      echo json_encode(array('success' => false));
+  }
+}
 }
 
 // Other parts of your code...
+if (isset($_POST['verifyOTP'])) {
+  // Retrieve form data
+  $otpEntered = $_POST['otpEntered'];
+  $otpStored = $_SESSION['otp'];
 
+  // Check if OTP entered by the user matches the stored OTP
+  if ($otpEntered == $otpStored) {
+      // OTP verification successful, proceed with registration
+      
+  } else {
+      // OTP verification failed
+      header("Location: error.php");
+      exit;
+  }
+}
 
 //after otp authenticated
 if(isset($_POST['patsub1'])){

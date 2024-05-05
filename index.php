@@ -43,12 +43,46 @@ function checklen()
   }  
 }
 
+ $(document).ready(function(){
+            $('#registrationForm').submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: 'func2.php',
+                    type: 'post',
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function(response){
+                        if(response.success){
+                            // Show the hidden elements
+                            $('#otpContainer').show();
+                            // You can do other actions here if needed
+                        } else {
+                            // Handle failure case if needed
+                            alert('Failed to send OTP.');
+                        }
+                    },
+                    error: function(){
+                        // Handle error case if needed
+                        alert('Error occurred while processing request.');
+                    }
+                });
+            });
+        });
+        
+
 </script>
 
 </head>
 
 <!------ Include the above in your HEAD tag ---------->
 <body>
+<?php
+// Include func2.php
+require_once 'func2.php';
+
+// Your PHP code for index.php goes here
+?>
+
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav" >
     <div class="container">
 
@@ -98,7 +132,7 @@ function checklen()
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                 <h3 class="register-heading">Register as Patient</h3>
-                                <form method="post" action="func2.php">
+                                <form method="post" action="func2.php" id="registrationForm">
                                 <div class="row register-form">
                                     
                                     <div class="col-md-6">
@@ -124,7 +158,12 @@ function checklen()
                                                 </label>
                                             </div>
                                             <a href="index1.php">Already have an account?</a>
-<button type="button" class="btnSendOTP" onclick="sendOTP()">Send OTP</button>
+                                            <button type="button" name="sendOTP" onclick="hehe()">Send OTP</button>
+                                        </div>
+                                        <!-- otp verification div that is initially not visible -->
+                                        <div id="otpContainer" style="display: none;">
+                                            <input type="text" id="otp" placeholder="Enter OTP">
+                                            <button id="verifyEmailBtn">Verify Email</button>
                                         </div>
                                     </div>
                                 
@@ -140,7 +179,7 @@ function checklen()
                                         <div class="form-group">
                                             <input type="password" class="form-control"  id="cpassword" placeholder="Confirm Password *" name="cpassword"  onkeyup='check();' required/><span id='message'></span>
                                         </div>
-                                        <input type="submit" class="btnRegister" name="patsub1" onclick="return checklen();" value="Register"/>
+                                        <input type="submit" class="btnRegister" name="patsub1" onclick="return checklen();" value="Register" disabled/>
                                     </div>
 
                                 </div>
