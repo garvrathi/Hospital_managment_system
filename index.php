@@ -124,10 +124,13 @@ function checklen()
                                                 </label>
                                             </div>
                                             <a href="index1.php">Already have an account?</a>
+<button type="button" class="btnSendOTP" onclick="sendOTP()">Send OTP</button>
                                         </div>
                                     </div>
                                 
                                     <div class="col-md-6">
+                                    <div> <input type="submit" class="btnRegister" name="patsub1" onclick="return checklen();" value="Register"/></div>
+            
                                         <div class="form-group">
                                             <input type="text" class="form-control" placeholder="Last Name *" name="lname" onkeydown="return alphaOnly(event);" required/>
                                         </div>
