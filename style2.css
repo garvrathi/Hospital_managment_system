@@ -7,7 +7,7 @@
 
 .register-left{
     text-align: center;
-    color: #fff;
+    color: #A91D3A;
     margin-top: 4%;
 }
 
@@ -16,9 +16,9 @@
     border-radius: 1.5rem;
     padding: 2%;
     width: 60%;
-    background: #f8f9fa;
+    background: #A91D3A;
     font-weight: bold;
-    color: #383d41;
+    color: #EEEEEE;
     margin-top: 30%;
     margin-bottom: 3%;
     cursor: pointer;

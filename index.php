@@ -5,7 +5,7 @@
 <head>
 	<title>HMS</title>
 	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" />
-<link rel="stylesheet" type="text/css" href="style1.css">
+
 <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
 <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous"> -->
 
@@ -13,11 +13,19 @@
 
 <link rel="stylesheet" href="vendor/fontawesome/css/font-awesome.min.css">
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-
+<link rel="stylesheet" type="text/css" href="style1.css">
 <style >
+    body{
+        background: #669BBC;
+        background-size: cover;
+    }
      .form-control {
-    border-radius: 0.2rem;
-}
+    border-radius: 0.75rem;
+    }
+    #mainNav {
+        background: #780000;
+    }
+    
 </style>
 
 <script>
@@ -55,7 +63,7 @@ function checklen()
 
 
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav" >
-    <div class="container">
+    <div class="container" >
 
       <a class="navbar-brand js-scroll-trigger" href="#" style="margin-top: 10px;margin-left:-65px;font-family: 'IBM Plex Sans', sans-serif;"><h4><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp GLOBAL HOSPITALS</h4></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,7 +92,7 @@ function checklen()
 <div class="container register" style="font-family: 'IBM Plex Sans', sans-serif;">
                 <div class="row">
                     <div class="col-md-3 register-left" style="margin-top: 10%;right: 5%">
-                        <img src="https://i.pinimg.com/474x/cd/9f/b1/cd9fb1f23325426eedb4f100e9e1dcf9.jpg" alt=""/>
+                        <img src="./assets/images/logo_black.png" alt=""/>
                         <h3>Welcome</h3>
                        
                     </div>
@@ -128,9 +136,8 @@ function checklen()
                                                     <span>Female </span> 
                                                 </label>
                                             </div>
-                                            <a href="index1.php">Already have an account?</a>
-                                            <input type="submit" name="sendOTP" >Send OTP</input>
-                                            
+                                            <a href="index1.php" style="color:white;">Already have an account?</a>
+<button type="button" class="btnSendOTP" onclick="sendOTP()">Send OTP</button>
                                         </div>
                                         
                                     </div>
