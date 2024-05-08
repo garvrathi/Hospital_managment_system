@@ -1,7 +1,8 @@
 body {
-    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+    background: #151515;
     background-size: cover;
 }
+
 
 .register{
     
@@ -10,7 +11,7 @@ body {
 }
 .register-left{
     text-align: center;
-    color: #fff;
+    color: black;
     margin-top: 4%;
 }
 .register-left input{
@@ -18,7 +19,7 @@ body {
     border-radius: 1.5rem;
     padding: 2%;
     width: 60%;
-    background: #f8f9fa;
+    background: #003049 ;
     font-weight: bold;
     color: #383d41;
     margin-top: 30%;
@@ -26,7 +27,7 @@ body {
     cursor: pointer;
 }
 .register-right{
-    background: #f8f9fa;
+    background: #003049 ;
     border-top-left-radius: 10% 50%;
     border-bottom-left-radius: 10% 50%;
 }
@@ -60,8 +61,8 @@ body {
     border: none;
     border-radius: 1.5rem;
     padding: 2%;
-    background: #0062cc;
-    color: #fff;
+    background: #fdf0d5 ;
+    color: #003049 ;
     font-weight: 600;
     width: 50%;
     cursor: pointer;
@@ -69,7 +70,7 @@ body {
 .register .nav-tabs{
     margin-top: 3%;
     border: none;
-    background: #0062cc;
+    background: #669BBC ;
     border-radius: 1.5rem;
     width: 28%;
     float: right;
@@ -78,7 +79,7 @@ body {
     padding: 1%;
     height: 34px;
     font-weight: 600;
-    color: #fff;
+    color: #000000;
     border-top-right-radius: 1.5rem;
     border-bottom-right-radius: 1.5rem;
 }
@@ -87,8 +88,8 @@ body {
 }
 .register .nav-tabs .nav-link.active{
     width: 120px;
-    color: #0062cc;
-    border: 2px solid #0062cc;
+    color: #000000 ;
+    border: 2px solid #fdf0d5 ;
     border-top-left-radius: 1.5rem;
     border-bottom-left-radius: 1.5rem;
 }
@@ -96,6 +97,8 @@ body {
     text-align: center;
     margin-top: 8%;
     margin-bottom: -15%;
-    color: #495057;
+    color: #fdf0d5;
 }
-
+.form-group{
+    color: #fdf0d5;
+}
