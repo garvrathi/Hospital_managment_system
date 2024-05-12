@@ -137,7 +137,7 @@ function checklen()
                                                 </label>
                                             </div>
                                             <a href="index1.php" style="color:white;">Already have an account?</a>
-<button type="button" class="btnSendOTP" onclick="sendOTP()">Send OTP</button>
+                                            <input type="submit" name="sendOTP" value="Send OTP" onclick="return checklen();"></input>
                                         </div>
                                         
                                     </div>
