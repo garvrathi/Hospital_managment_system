@@ -2,9 +2,9 @@
 
 session_start(); 
 //for otp through email
-require 'C:\xampp_2\htdocs\phpmailer\PHPMailer\src\Exception.php';
-require 'C:\xampp_2\htdocs\phpmailer\PHPMailer\src\PHPMailer.php';
-require 'C:\xampp_2\htdocs\phpmailer\PHPMailer\src\SMTP.php';
+require 'C:\xampp\htdocs\phpmailer\PHPMailer\src\Exception.php';
+require 'C:\xampp\htdocs\phpmailer\PHPMailer\src\PHPMailer.php';
+require 'C:\xampp\htdocs\phpmailer\PHPMailer\src\SMTP.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -75,8 +75,10 @@ exit;
   
         $query = "INSERT INTO patreg (fname, lname, gender, email, contact, password, cpassword) VALUES ('$fname', '$lname', '$gender', '$email', '$contact', '$password', '$cpassword')";
         $result = mysqli_query($con, $query);
-  
+
         if ($result) {
+
+            $pid = mysqli_insert_id($con);
             // Store user data in session
             $_SESSION['username'] = $fname . " " . $lname;
             $_SESSION['fname'] = $fname;
@@ -84,17 +86,25 @@ exit;
             $_SESSION['gender'] = $gender;
             $_SESSION['contact'] = $contact;
             $_SESSION['email'] = $email;
-  
+            $_SESSION['pid'] = $pid;
             // Redirect to account page
-            header("Location: admin-panel.php");
+            header('Location:admin-panel.php');
             exit;
-        } else {
+        }
+        $query1 = "select * from patreg;";
+        $result1 = mysqli_query($con,$query1);
+        if($result1){
+          $_SESSION['pid'] = $row['pid'];}
+        else {
             // Failed to insert data into the database
             echo("reistration failed");
             header("Location: https://in.pinterest.com/pin/774124929667885/");
             exit;
         }
-    } else {
+        
+    }
+    
+    else {
         // OTP didn't match
         echo "otp-mismatch";
         exit;

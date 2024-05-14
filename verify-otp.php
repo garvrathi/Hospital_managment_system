@@ -11,7 +11,7 @@
 		href="css/style.css" media="screen" /> 
 
 	<!-- Adding bootstrap --> 
-	<link rel="stylesheet" href= 
+	<link rel="stylesheet" href=
 "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 		integrity= 
 "sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -49,8 +49,6 @@
     <input type="text" class="form-control" name="otp" id="OTP" aria-describedby="emailHelp" placeholder="Enter OTP" required>
     <input type="submit" class="btn btn-primary btn-lg" id="verifyOTPBtn" name="patsub">Verify OTP</input>
 	</form> 
-
-	
 </body> 
 
 </html>

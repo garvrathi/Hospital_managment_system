@@ -4,6 +4,10 @@ include('func.php');
 include('newfunc.php');
 $con=mysqli_connect("localhost","root","","myhmsdb");
 
+if (!isset($_SESSION['pid'])) {
+  echo "Error: PID not set in session.";
+  exit; // Exit the script to prevent further execution
+}
 
   $pid = $_SESSION['pid'];
   $username = $_SESSION['username'];
