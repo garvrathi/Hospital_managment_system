@@ -1,13 +1,11 @@
 <?php
 
-session_start(); 
-//for otp through email
+
 require 'C:\xampp_2\htdocs\phpmailer\PHPMailer\src\Exception.php';
 require 'C:\xampp_2\htdocs\phpmailer\PHPMailer\src\PHPMailer.php';
 require 'C:\xampp_2\htdocs\phpmailer\PHPMailer\src\SMTP.php';
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+session_start(); 
+//for otp through email
 
 if($_SERVER["REQUEST_METHOD"]=="POST"){
   $con = mysqli_connect("localhost", "root", "", "myhmsdb");//making connection
@@ -75,7 +73,7 @@ exit;
   
         $query = "INSERT INTO patreg (fname, lname, gender, email, contact, password, cpassword) VALUES ('$fname', '$lname', '$gender', '$email', '$contact', '$password', '$cpassword')";
         $result = mysqli_query($con, $query);
-  
+
         if ($result) {
             // Store user data in session
             $_SESSION['username'] = $fname . " " . $lname;
@@ -87,14 +85,22 @@ exit;
   
             // Redirect to account page
             header("Location: admin-panel.php");
+            $query1 = "select * from patreg;";
+            $result1 = mysqli_query($con,$query1);
+            if($result1){
+                $_SESSION['pid'] = $row['pid'];}
             exit;
-        } else {
+        }
+        
+        else {
             // Failed to insert data into the database
             echo("reistration failed");
             header("Location: https://in.pinterest.com/pin/774124929667885/");
             exit;
         }
-    } else {
+    }
+    
+    else {
         // OTP didn't match
         echo "otp-mismatch";
         exit;
@@ -130,7 +136,10 @@ function generateOTP() {
 
 
 function sendOTP($to, $otp, $fname, $lname) {
+
+
 $mail = new PHPMailer(true);
+//$mail->SMTPSecure = 'tls';
 
 try {
     //Server settings

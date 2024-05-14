@@ -45,10 +45,6 @@ function checklen()
         return false;  
   }  
 }
-function redirectToVerifyOTP() {
-    
-    console.log("will go to verification page");
-}
 
 </script>
 
@@ -133,7 +129,7 @@ function redirectToVerifyOTP() {
                                                 </label>
                                             </div>
                                             <a href="index1.php">Already have an account?</a>
-                                            <input type="submit" name="sendOTP" onclick="redirectToVerifyOTP()">Send OTP</input>
+                                            <input type="submit" name="sendOTP" >Send OTP</input>
                                             
                                         </div>
                                         
