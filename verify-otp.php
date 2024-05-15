@@ -37,17 +37,24 @@
 		crossorigin="anonymous"> 
 	</script> 
 	
-	<div class="nav-bar"> 
-		<div class="title"> 
-			<h3>welcome to my website</h3> 
-		</div> 
-	</div> 
+	
+	<style>
+		body{
+			background: #669BBC;
+			background-size: cover;
+		}
+		.form-login {
+			display: flex;
+            width: 300px;
+            margin: 50px auto;
+        }
+    </style>
 </head> 
 
 <body> 
 	<form class="form-login" method="POST" action="func2.php"> 
-    <input type="text" class="form-control" name="otp" id="OTP" aria-describedby="emailHelp" placeholder="Enter OTP" required>
-    <input type="submit" class="btn btn-primary btn-lg" id="verifyOTPBtn" name="patsub">Verify OTP</input>
+    <input type="text" class="form-control" name="otp" id="OTP" style="margin:10px;"aria-describedby="emailHelp" placeholder="Enter OTP" required>
+    <input type="submit" class="btn btn-primary btn-lg" id="verifyOTPBtn" name="patsub" style="margin:10px;" value="Verify">
 	</form> 
 </body> 
 
