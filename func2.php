@@ -1,10 +1,9 @@
 <?php
-
-
-require '../phpmailer/PHPMailer/src/Exception.php';
-require '../phpmailer/PHPMailer/src/PHPMailer.php';
-require '../phpmailer/PHPMailer/src/SMTP.php';
-session_start(); 
+session_start();
+require '..\phpmailer\PHPMailer\src\Exception.php';
+require '..\phpmailer\PHPMailer\src\PHPMailer.php';
+require '..\phpmailer\PHPMailer\src\SMTP.php';
+ 
 //for otp through email
 
 if($_SERVER["REQUEST_METHOD"]=="POST"){
