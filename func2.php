@@ -1,9 +1,9 @@
 <?php
 
 
-require 'C:\xampp_2\htdocs\phpmailer\PHPMailer\src\Exception.php';
-require 'C:\xampp_2\htdocs\phpmailer\PHPMailer\src\PHPMailer.php';
-require 'C:\xampp_2\htdocs\phpmailer\PHPMailer\src\SMTP.php';
+require '../phpmailer/PHPMailer/src/Exception.php';
+require '../phpmailer/PHPMailer/src/PHPMailer.php';
+require '../phpmailer/PHPMailer/src/SMTP.php';
 session_start(); 
 //for otp through email
 
@@ -55,6 +55,7 @@ exit;
   
     // Check if the entered OTP matches the stored OTP
     if ($otp1 == $otp2) {
+
         // OTP matched, proceed with form submission
         $fname = $_SESSION['fname'];
         $lname = $_SESSION['lname'];
@@ -75,7 +76,9 @@ exit;
         $result = mysqli_query($con, $query);
 
         if ($result) {
+            $pid = mysqli_insert_id($con);
             // Store user data in session
+            $_SESSION['pid'] = $pid;
             $_SESSION['username'] = $fname . " " . $lname;
             $_SESSION['fname'] = $fname;
             $_SESSION['lname'] = $lname;
