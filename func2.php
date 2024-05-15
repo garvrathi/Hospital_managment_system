@@ -1,56 +1,23 @@
 <?php
 session_start();
-require 'C:\xampp_2\htdocs\Hospital_managment_system\PHPMailer-master\src\Exception.php';
-require 'C:\xampp_2\htdocs\Hospital_managment_system\PHPMailer-master\src\PHPMailer.php';
-require 'C:\xampp_2\htdocs\Hospital_managment_system\PHPMailer-master\src\SMTP.php';
+require '..\phpmailer\PHPMailer\src\Exception.php';
+require '..\phpmailer\PHPMailer\src\PHPMailer.php';
+require '..\phpmailer\PHPMailer\src\SMTP.php';
+ 
+//for otp through email
+require 'C:\xampp\htdocs\phpmailer\PHPMailer\src\Exception.php';
+require 'C:\xampp\htdocs\phpmailer\PHPMailer\src\PHPMailer.php';
+require 'C:\xampp\htdocs\phpmailer\PHPMailer\src\SMTP.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-$con = mysqli_connect("localhost", "root", "", "myhmsdb");
+if($_SERVER["REQUEST_METHOD"]=="POST"){
+  $con = mysqli_connect("localhost", "root", "", "myhmsdb");//making connection
+  if(!$con) 
+  echo ("failed to connect to database"); 
 
-function generateOTP() {
-    return mt_rand(100000, 999999);
-}
-
-function sendOTP($to, $otp, $fname, $lname) {
-    $mail = new PHPMailer(true);
-
-    try {
-        //Server settings
-        $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';
-        $mail->SMTPAuth   = true;
-        $mail->Username   = 'ananyasarkarlks@gmail.com'; // Your Gmail address
-        $mail->Password   = 'kdsvmepiitgyxkaj';   // Your Gmail password
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 587;
-
-        //Recipients
-        $mail->setFrom('your-email@gmail.com', 'Your Name');
-        $mail->addAddress($to, $fname . ' ' . $lname);
-
-        // Content
-        $mail->isHTML(true);
-        $mail->Subject = 'Your OTP for Registration';
-        $mail->Body    = '
-            <p>Dear ' . $fname . ' ' . $lname . ',</p>
-            <p>Thanks for signing up. Your verification ID and token are given below:</p>
-            <p>' . $otp . '</p>
-            <p><strong>This is an automatically generated email. Please do not reply.</strong></p>
-            <p>Regards,</p>
-        ';
-
-        $mail->send();
-        return true; // Email sent successfully
-    } catch (Exception $e) {
-        return false; // Failed to send email
-    }
-}
-
-// Process form submission
-if (isset($_POST['patsub1'])) {
-    // Retrieve form data
+  if(isset($_POST['sendOTP'])){
     $fname = $_POST['fname'];
     $lname = $_POST['lname'];
     $gender = $_POST['gender'];
@@ -58,100 +25,164 @@ if (isset($_POST['patsub1'])) {
     $contact = $_POST['contact'];
     $password = $_POST['password'];
     $cpassword = $_POST['cpassword'];
-
+        
     // Generate OTP
     $otp = generateOTP();
-
-    // Send OTP email
     $mailSent = sendOTP($email, $otp, $fname, $lname);
-
+  
     if ($mailSent) {
-        // Store the OTP in the session for verification later
-        $_SESSION['otp'] = $otp;
+      // Store the OTP in the session for verification later
+      $_SESSION['otp'] = $otp;
+      $_SESSION['fname'] = $fname;
+      $_SESSION['lname'] = $lname;
+      $_SESSION['gender'] = $gender;
+      $_SESSION['contact'] = $contact;
+      $_SESSION['email'] = $email;
+  
+      // Enable the OTP field and the "verify otp" button
+      echo json_encode(array('success' => true));
+      header("Location: verify-otp.php");
+exit; 
+    } 
+    else {
+      // Failed to send email
+      echo json_encode(array('success' => false));
+  }
+    }
+  else if (isset($_POST['patsub'])) {
+    // Get the OTP entered by the user
+    $otp1 = $_POST['otp'];
+    //session_start(); 
+      
+    // Retrieving otp with session variable 
+    $otp2=$_SESSION["otp"];
 
-        // Store other user data in session or database
-        // Perform database operations
+  
+    // Check if the entered OTP matches the stored OTP
+    if ($otp1 == $otp2) {
 
-        // Redirect user to OTP verification page
-        header("Location: otp-verification.php");
-        exit;
-    } else {
-        // Failed to send email
-        header("Location: error.php");
+        // OTP matched, proceed with form submission
+        $fname = $_SESSION['fname'];
+        $lname = $_SESSION['lname'];
+        $gender = $_SESSION['gender'];
+        $email = $_SESSION['email'];
+        $contact = $_SESSION['contact'];
+        $password = $_SESSION['password'];
+        $cpassword = $_SESSION['cpassword'];
+  
+        // Insert the data into the database
+        $con = mysqli_connect("localhost", "root", "", "myhmsdb");
+        if (!$con) {
+            header("Location: error.php");
+            exit;
+        }
+  
+        $query = "INSERT INTO patreg (fname, lname, gender, email, contact, password, cpassword) VALUES ('$fname', '$lname', '$gender', '$email', '$contact', '$password', '$cpassword')";
+        $result = mysqli_query($con, $query);
+
+
+        if ($result) {
+
+            $pid = mysqli_insert_id($con);
+            // Store user data in session
+            $_SESSION['pid'] = $pid;
+            $_SESSION['username'] = $fname . " " . $lname;
+            $_SESSION['fname'] = $fname;
+            $_SESSION['lname'] = $lname;
+            $_SESSION['gender'] = $gender;
+            $_SESSION['contact'] = $contact;
+            $_SESSION['email'] = $email;
+            $_SESSION['pid'] = $pid;
+            // Redirect to account page
+            header('Location:admin-panel.php');
+            exit;
+        }
+        $query1 = "select * from patreg;";
+        $result1 = mysqli_query($con,$query1);
+        if($result1){
+          $_SESSION['pid'] = $row['pid'];}
+        else {
+            // Failed to insert data into the database
+            echo("reistration failed");
+            header("Location: https://in.pinterest.com/pin/774124929667885/");
+            exit;
+        }
+        
+    }
+    
+    else {
+        // OTP didn't match
+        echo "otp-mismatch";
         exit;
     }
+  } 
+  
 }
 
-// Other parts of your code...
-
-
-//after otp authenticated
-if(isset($_POST['patsub1'])){
-	$fname=$_POST['fname'];
-  $lname=$_POST['lname'];
-  $gender=$_POST['gender'];
-  $email=$_POST['email'];
-  $contact=$_POST['contact'];
-	$password=$_POST['password'];
-  $cpassword=$_POST['cpassword'];
-  if($password==$cpassword){
-  	$query="insert into patreg(fname,lname,gender,email,contact,password,cpassword) values ('$fname','$lname','$gender','$email','$contact','$password','$cpassword');";
-    $result=mysqli_query($con,$query);
-    if($result){
-        $_SESSION['username'] = $_POST['fname']." ".$_POST['lname'];
-        $_SESSION['fname'] = $_POST['fname'];
-        $_SESSION['lname'] = $_POST['lname'];
-        $_SESSION['gender'] = $_POST['gender'];
-        $_SESSION['contact'] = $_POST['contact'];
-        $_SESSION['email'] = $_POST['email'];
-        header("Location:admin-panel.php");
-    } 
-
-    $query1 = "select * from patreg;";
-    $result1 = mysqli_query($con,$query1);
-    if($result1){
-      $_SESSION['pid'] = $row['pid'];
-    }
-
-  }
-  else{
-    header("Location:error1.php");
-  }
+//doctor:
+if(isset($_POST['doc_sub']))
+{
+  $name=$_POST['name'];
+  $query="insert into doctb(name)values('$name')";
+  $result=mysqli_query($con,$query);
+  if($result)
+    header("Location:adddoc.php");
 }
 if(isset($_POST['update_data']))
 {
-	$contact=$_POST['contact'];
-	$status=$_POST['status'];
-	$query="update appointmenttb set payment='$status' where contact='$contact';";
-	$result=mysqli_query($con,$query);
-	if($result)
-		header("Location:updated.php");
+$contact=$_POST['contact'];
+$status=$_POST['status'];
+$query="update appointmenttb set payment='$status' where contact='$contact';";
+$result=mysqli_query($con,$query);
+if($result)
+  header("Location:updated.php");
 }
 
 
-
-
-// function display_docs()
-// {
-// 	global $con;
-// 	$query="select * from doctb";
-// 	$result=mysqli_query($con,$query);
-// 	while($row=mysqli_fetch_array($result))
-// 	{
-// 		$name=$row['name'];
-// 		# echo'<option value="" disabled selected>Select Doctor</option>';
-// 		echo '<option value="'.$name.'">'.$name.'</option>';
-// 	}
-// }
-
-if(isset($_POST['doc_sub']))
-{
-	$name=$_POST['name'];
-	$query="insert into doctb(name)values('$name')";
-	$result=mysqli_query($con,$query);
-	if($result)
-		header("Location:adddoc.php");
+//functions:
+function generateOTP() {
+  return mt_rand(100000, 999999);
 }
+
+
+function sendOTP($to, $otp, $fname, $lname) {
+
+
+$mail = new PHPMailer(true);
+//$mail->SMTPSecure = 'tls';
+
+try {
+    //Server settings
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.gmail.com';
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'ananyasarkarlks@gmail.com'; // Your Gmail address
+    $mail->Password   = 'kdsvmepiitgyxkaj';   // Your Gmail password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port       = 587;
+
+    //Recipients
+    $mail->setFrom('your-email@gmail.com', 'ananya');
+    $mail->addAddress($to, $fname . ' ' . $lname);
+
+    // Content
+    $mail->isHTML(true);
+    $mail->Subject = 'Your OTP for Registration';
+    $mail->Body    = '
+        <p>Dear ' . $fname . ' ' . $lname . ',</p>
+        <p>Thanks for signing up. Your verification ID and token are given below:</p>
+        <p>' . $otp . '</p>
+        <p><strong>This is an automatically generated email. Please do not reply.</strong></p>
+        <p>Regards,</p>
+    ';
+
+    $mail->send();
+    return true; // Email sent successfully
+} catch (Exception $e) {
+    return false; // Failed to send email
+}
+}
+
 function display_admin_panel(){
 	echo '<!DOCTYPE html>
 <html lang="en">

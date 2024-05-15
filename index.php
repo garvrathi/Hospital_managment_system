@@ -1,4 +1,7 @@
-<html>
+
+<!DOCTYPE html>
+<html  lang="en">
+
 <head>
 	<title>HMS</title>
 	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" />
@@ -53,10 +56,12 @@ function checklen()
 
 </script>
 
+
 </head>
 
-<!------ Include the above in your HEAD tag ---------->
 <body>
+
+
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav" >
     <div class="container" >
 
@@ -106,7 +111,7 @@ function checklen()
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                 <h3 class="register-heading">Register as Patient</h3>
-                                <form method="post" action="func2.php">
+                                <form method="post" id="registrationForm" action="func2.php">
                                 <div class="row register-form">
                                     
                                     <div class="col-md-6">
@@ -132,8 +137,9 @@ function checklen()
                                                 </label>
                                             </div>
                                             <a href="index1.php" style="color:white;">Already have an account?</a>
-<button type="button" class="btnSendOTP" onclick="sendOTP()">Send OTP</button>
+                                            <input type="submit" name="sendOTP" value="Send OTP" onclick="return checklen();"></input>
                                         </div>
+                                        
                                     </div>
                                 
                                     <div class="col-md-6">
@@ -148,11 +154,13 @@ function checklen()
                                         <div class="form-group">
                                             <input type="password" class="form-control"  id="cpassword" placeholder="Confirm Password *" name="cpassword"  onkeyup='check();' required/><span id='message'></span>
                                         </div>
-                                        <input type="submit" class="btnRegister" name="patsub1" onclick="return checklen();" value="Register"/>
+                                        
                                     </div>
 
                                 </div>
                             </form>
+                            <div>
+                            </div>
                             </div>
 
                             
@@ -212,6 +220,6 @@ function checklen()
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
-    </html>
+</html>
 
   

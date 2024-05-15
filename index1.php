@@ -19,7 +19,7 @@ include("header.php");
 
     
   </head>
-  <style type="text/css">
+  <style>
     #inputbtn:hover{cursor:pointer;}
     .card{
     background: #f8f9fa;
@@ -28,9 +28,22 @@ include("header.php");
     border-top-right-radius: 5% 5%;
     border-bottom-right-radius: 5% 5%;
 }
-
+    body {
+        background: #669BBC;
+        background-size: cover;
+    }
+    #mainNav{
+    background-color: #780000;
+}
+    .card-body{
+      background-color: #003049;
+      border-radius: 28px;
+    }
+    .card-body h3,label{
+      color: #fdf0d5;
+    }
   </style>
-  <body style="background: -webkit-linear-gradient(left, #3931af, #00c6ff); background-size: cover;">
+  <body>
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav" >
     <div class="container">
 
