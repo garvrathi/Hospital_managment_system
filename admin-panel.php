@@ -41,12 +41,10 @@ if(isset($_POST['app-submit']))
   $apptime1 = strtotime($apptime);
   $appdate1 = strtotime($appdate);
 	
-  if(date("Y-m-d",$appdate1)>=$cur_date){
-    if((date("Y-m-d",$appdate1)==$cur_date and date("H:i:s",$apptime1)>$cur_time) or date("Y-m-d",$appdate1)>$cur_date) {
-      $check_query = mysqli_query($con,"select apptime from appointmenttb where doctor='$doctor' and appdate='$appdate' and apptime='$apptime'");
-
+  if ($appdate1 > strtotime($cur_date) || ($appdate1 == strtotime($cur_date) && $apptime1 > strtotime($cur_time))) {
+    $check_query = mysqli_query($con, "SELECT apptime FROM appointmenttb WHERE doctor='$doctor' AND appdate='$appdate' AND apptime='$apptime'");
+    if (mysqli_num_rows($check_query) == 0) {
       $query = "INSERT INTO appointmenttb (pid, fname, lname, gender, email, contact, doctor, docFees, appdate, apptime, userStatus, doctorStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1)";
-
       $stmt = mysqli_prepare($con, $query);
       mysqli_stmt_bind_param($stmt, "isssssssss", $pid, $fname, $lname, $gender, $email, $contact, $doctor, $docFees, $appdate, $apptime);
       
@@ -55,19 +53,13 @@ if(isset($_POST['app-submit']))
       } else {
           echo "Error: " . mysqli_error($con);
       }
-      }
-      else{
-        echo "<script>alert('We are sorry to inform that the doctor is not available in this time or date. Please choose different time or date!');</script>";
-      }
+    } else {
+      echo "<script>alert('The doctor is not available at this time. Please choose a different time or date!');</script>";
     }
-    else{
-      echo "<script>alert('Select a time or date in the future!');</script>";
-    }
+  } else {
+    echo "<script>alert('Select a time or date in the future!');</script>";
   }
-  else{
-      echo "<script>alert('Select a time or date in the future!');</script>";
-  }
-  
+}  
 
 if(isset($_GET['cancel']))
   {
