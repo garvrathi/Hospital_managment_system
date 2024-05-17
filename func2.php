@@ -3,11 +3,6 @@ session_start();
 require '..\phpmailer\PHPMailer\src\Exception.php';
 require '..\phpmailer\PHPMailer\src\PHPMailer.php';
 require '..\phpmailer\PHPMailer\src\SMTP.php';
- 
-//for otp through email
-require 'C:\xampp\htdocs\phpmailer\PHPMailer\src\Exception.php';
-require 'C:\xampp\htdocs\phpmailer\PHPMailer\src\PHPMailer.php';
-require 'C:\xampp\htdocs\phpmailer\PHPMailer\src\SMTP.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -38,6 +33,8 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
       $_SESSION['gender'] = $gender;
       $_SESSION['contact'] = $contact;
       $_SESSION['email'] = $email;
+      $_SESSION['password'] = $password;
+      $_SESSION['cpassword'] = $cpassword;
   
       // Enable the OTP field and the "verify otp" button
       echo json_encode(array('success' => true));
