@@ -1,12 +1,11 @@
 import random
-import flask
 from flask import jsonify
 import secrets
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request, session
 from flask_sqlalchemy import SQLAlchemy
 
 ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg']
-app = Flask(__name__)
+app = Flask(__name__,static_folder='static', template_folder='templates')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 app.secret_key = "m4xpl0it"
@@ -18,34 +17,14 @@ def make_token():
     """
     return secrets.token_urlsafe(16) 
  
-class user(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80))
-    email = db.Column(db.String(120))
-    password = db.Column(db.String(80))
-
-
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-
 userSession = {}
 
 @app.route("/user")
-def index_auth():
+def chat():
     my_id = make_token()
     userSession[my_id] = -1
-    return render_template("index_auth.html",sessionId=my_id)
+    return render_template("chat.html",sessionId=my_id)
 
-
-@app.route("/instruct")
-def instruct():
-    return render_template("instructions.html")
-
-@app.route("/upload")
-def bmi():
-    return render_template("bmi.html")
 
 @app.route("/diseases")
 def diseases():
@@ -58,33 +37,6 @@ def pred_page():
     f_name = session.get('filename', None)
     return render_template('pred.html', pred=pred, f_name=f_name)
 
-
-
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-        uname = request.form["uname"]
-        passw = request.form["passw"]
-
-        login = user.query.filter_by(username=uname, password=passw).first()
-        if login is not None:
-            return redirect(url_for("index_auth"))
-    return render_template("login.html")
-
-
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    if request.method == "POST":
-        uname = request.form['uname']
-        mail = request.form['mail']
-        passw = request.form['passw']
-
-        register = user(username=uname, email=mail, password=passw)
-        db.session.add(register)
-        db.session.commit()
-
-        return redirect(url_for("login"))
-    return render_template("register.html")
 
 
 import msgConstant as msgCons
@@ -138,7 +90,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 # Load the dataset into a pandas dataframe
-df = pd.read_excel('dataset.xlsx')
+df = pd.read_excel('chatbotsection\dataset.xlsx')
 
 # Get all unique symptoms
 symptoms = set()
@@ -268,10 +220,11 @@ def get_symtoms(user_disease):
 
         return True,symptoms
 
-#from duckduckgo_search import ddg
+
 from duckduckgo_search import DDGS
+
 def getDiseaseInfo(keywords):
-    results = DDGS(keywords, region='wt-wt', safesearch='Off', time='y')
+    results = ddg(keywords, region='wt-wt', safesearch='Off', time='y')
     return results[0]['body']
 
 
@@ -461,4 +414,4 @@ def chat_msg():
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-    app.run(debug=False, port=3000)
+    app.run(debug=True)

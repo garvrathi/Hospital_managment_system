@@ -226,7 +226,7 @@ function get_specs(){
       <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Book Appointment</a>
       <a class="list-group-item list-group-item-action" href="#app-hist" id="list-pat-list" role="tab" data-toggle="list" aria-controls="home">Appointment History</a>
       <a class="list-group-item list-group-item-action" href="#list-pres" id="list-pres-list" role="tab" data-toggle="list" aria-controls="home">Prescriptions</a>
-      <a class="list-group-item list-group-item-action" href="chatbotsection/templates/chat.html" id="list-chat-list" role="tab" aria-controls="home">Chat</a>
+      <a class="list-group-item list-group-item-action" href="chatbotsection\templates\chat.html" id="list-chat-list" role="tab" aria-controls="home">Chat</a>
       
       
     </div><br>
