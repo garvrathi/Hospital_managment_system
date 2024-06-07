@@ -149,7 +149,6 @@ function get_specs(){
 <html lang="en">
   <head>
 
-
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" />
@@ -159,13 +158,6 @@ function get_specs(){
     <!-- Bootstrap CSS -->
     
         <link rel="stylesheet" href="vendor/fontawesome/css/font-awesome.min.css">
-
-    
-  
-    
-    
-
-
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 
@@ -226,9 +218,14 @@ function get_specs(){
       <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Book Appointment</a>
       <a class="list-group-item list-group-item-action" href="#app-hist" id="list-pat-list" role="tab" data-toggle="list" aria-controls="home">Appointment History</a>
       <a class="list-group-item list-group-item-action" href="#list-pres" id="list-pres-list" role="tab" data-toggle="list" aria-controls="home">Prescriptions</a>
-      <a class="list-group-item list-group-item-action" href="http://127.0.0.1:3000/user" id="list-chat-list" role="tab" aria-controls="home">Chat</a>
+      <a class="list-group-item list-group-item-action" href="http://localhost:5000/predict" id="list-chat-list" role="tab" data-toggle="list" aria-controls="home" onclick="openPredictionGUI()">Predict</a>
       
-      
+      <script>
+        function openPredictionGUI() {}
+        $.get("/predict", function(data) {
+                $("#prediction-result").text(data.prediction);
+            });
+    </script>
     </div><br>
   </div>
   <div class="col-md-8" style="margin-top: 3%;">
