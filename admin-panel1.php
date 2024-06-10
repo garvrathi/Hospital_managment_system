@@ -80,7 +80,7 @@ if(isset($_POST['docsub1']))
 
   <style >
     .bg-primary {
-    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+    background: -webkit-linear-gradient(left, #780000, #780000);
 }
 
 .col-md-4{
@@ -127,7 +127,7 @@ if(isset($_POST['docsub1']))
     button:hover{cursor:pointer;}
     #inputbtn:hover{cursor:pointer;}
   </style>
-  <body style="padding-top:50px;">
+  <body style="padding-top:50px; background-color:#669BBC">
    <div class="container-fluid" style="margin-top:50px;">
     <h3 style = "margin-left: 40%; padding-bottom: 20px;font-family: 'IBM Plex Sans', sans-serif;"> WELCOME RECEPTIONIST </h3>
     <div class="row">
